@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Test page in Strict mode</title>
+    <link rel="stylesheet" href="style.css">
+    <script src='https://s.keyman.com/kmw/engine/18.0.166/keymanweb.js'></script>
+    <script src='https://s.keyman.com/kmw/engine/18.0.166/kmwuitoggle.js'></script>
+    <script>
+      (function() {
+        keyman.init({attachType:'auto'}).then(function() {
+          keyman.addKeyboards('@en'); // Loads default English keyboard from Keyman Cloud (CDN)
+          keyman.addKeyboards('@th'); // Loads default Thai keyboard from Keyman Cloud (CDN)
+        });
+      })(keyman);
+    </script>
+    <script>
+      function loadKeyboards() {
+          // Uses an older type of keyboard stub definition.
+          var KWK={
+              "laokeys":{KN:"Lao (Phonetic)", KLC:"lo", KL:"Lao"}
+          };
+
+          for(var n in KWK) {
+              KeymanWeb.registerStub({KF:"./js/" + n+".js", KI:"Keyboard_"+n, KN:KWK[n].KN, KL:KWK[n].KL, KLC:KWK[n].KLC});
+          }
+      }
+      function SetupDocument() {
+        keyman.init({
+          root: './',  // Note - if drawing the latest version of KeymanWeb from the CDN, this will
+                      // default to the source folder on our servers.
+          ui: 'toggle',
+          resources: './'
+        }).then(function() {
+          loadKeyboards();
+
+          keyman.disableControl(document.getElementById('numeric-input-web'));
+          keyman.setKeyboardForControl(document.getElementById('non-input-web'), 'Keyboard_laokeys', 'lo');
+          keyman.setKeyboardForControl(document.getElementById('email-input-web'), 'Keyboard_laokeys', 'lo');
+        });
+      }
+
+      window.addEventListener( 'load' , SetupDocument );
+    </script>
+  </head>
+  <body onload="SetupDocument()">
+    <div>Numeric input</div>
+    <input id="numeric-input" placeholder="Enter a number" inputmode="numeric"/>
+    <br><br>
+
+    <div>None input</div>
+    <input id="none-input" placeholder="Enter something" inputmode="none"/>
+    <br><br>
+
+    <div>Email input</div>
+    <input id="email-input" placeholder="Enter an email address" inputmode="email"/>
+    <br><br>
+
+    <div>Numeric input</div>
+    <input id="numeric-input-web" placeholder="Enter a number" inputmode="numeric"/>
+    <br><br>
+
+    <div>None input</div>
+    <input id="none-input-web" placeholder="Enter something" inputmode="none"/>
+    <br><br>
+
+    <div>Email input</div>
+    <input id="email-input-web" placeholder="Enter an email address" inputmode="email"  class="kmw-disabled"/>
+    <br><br>
+</body>
+</html>
