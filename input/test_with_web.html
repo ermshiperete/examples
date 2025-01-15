@@ -7,12 +7,9 @@
     <script src='https://s.keyman.com/kmw/engine/18.0.166/keymanweb.js'></script>
     <script src='https://s.keyman.com/kmw/engine/18.0.166/kmwuitoggle.js'></script>
     <script>
-      function SetupDocument() {
+      (function () {
         keyman.init({
-          root: './',  // Note - if drawing the latest version of KeymanWeb from the CDN, this will
-                      // default to the source folder on our servers.
-          ui: 'toggle',
-          resources: './'
+          attachType: 'manual'
         }).then(function() {
           keyman.addKeyboards('lo');
 
@@ -20,12 +17,10 @@
           keyman.setKeyboardForControl(document.getElementById('non-input-web'), 'Keyboard_laokeys', 'lo');
           keyman.setKeyboardForControl(document.getElementById('email-input-web'), 'Keyboard_laokeys', 'lo');
         });
-      }
-
-      window.addEventListener( 'load' , SetupDocument );
+      })(keyman);
     </script>
   </head>
-  <body onload="SetupDocument()">
+  <body>
     <div>Numeric input</div>
     <input id="numeric-input" placeholder="Enter a number" inputmode="numeric"/>
     <br><br>
